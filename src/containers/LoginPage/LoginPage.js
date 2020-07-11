@@ -6,7 +6,7 @@ import { login } from '../../store/actions/user/auth'
 
 const LoginPage = props => {
 	const submit = (data) =>
-		props.login(data).then(() => props.history.push('/'))
+		props.login(data).then(() => props.history.push('/dashboard'))
 
 	return (
 		<div>
