@@ -7,6 +7,8 @@ import ConfirmationPage from './containers/ConfirmationPage/ConfirmationPage'
 import LoginPage from './containers/LoginPage/LoginPage'
 import DashboardPage from './containers/DashboardPage/DashboardPage'
 import SignupPage from './containers/SingupPage/SignupPage'
+import ForgotPasswordPage from './containers/ForgotPasswordPage/ForgotPasswordPage'
+import ResetPasswordPage from './containers/ResetPasswordPage/ResetPasswordPage'
 
 const App = () => (
 	<div>
@@ -14,6 +16,8 @@ const App = () => (
 		<Route path="/confirmation/:token" exact component={ConfirmationPage} />
 		<GuestRoute path="/login" exact component={LoginPage} />
 		<GuestRoute path="/signup" exact component={SignupPage} />
+		<GuestRoute path="/forgot_password" exact component={ForgotPasswordPage} />
+		<GuestRoute path="/reset_password/:token" exact component={ResetPasswordPage} />
 		<UserRoute path="/dashboard" exact component={DashboardPage} />
 	</div>
 )

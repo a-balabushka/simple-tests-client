@@ -21,3 +21,12 @@ export const confirm = (token) => (dispatch) =>
 		localStorage.simpleTestsJWT = user.token
 		dispatch(userLoggedIn(user))
 	})
+
+export const resetPasswordRequest = (data) => (dispatch) => {
+	api.user.resetPasswordRequest(data.email)
+	dispatch(userLoggedOut())
+}
+
+export const validateToken = (token) => () => api.user.validateToken(token)
+
+export const resetPassword = (data) => () => api.user.resetPassword(data)
