@@ -15,3 +15,18 @@ export const logout = () => (dispatch) => {
 	localStorage.removeItem('simpleTestsJWT')
 	dispatch(userLoggedOut())
 }
+
+export const confirm = (token) => (dispatch) =>
+	api.user.confirm(token).then((user) => {
+		localStorage.simpleTestsJWT = user.token
+		dispatch(userLoggedIn(user))
+	})
+
+export const resetPasswordRequest = (data) => (dispatch) => {
+	api.user.resetPasswordRequest(data.email)
+	dispatch(userLoggedOut())
+}
+
+export const validateToken = (token) => () => api.user.validateToken(token)
+
+export const resetPassword = (data) => () => api.user.resetPassword(data)
