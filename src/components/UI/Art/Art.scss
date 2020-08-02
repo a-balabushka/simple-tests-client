@@ -1,0 +1,35 @@
+@import '../../../style.scss';
+
+.art-container {
+  height: 100%;
+  width: 500px;
+  flex-shrink: 0;
+  background: $accent-color;
+
+  @include flex-column-space-between-center;
+
+  @media screen and ( max-width: $desktop-width ) {
+    width: 400px;
+  }
+
+  @media screen and ( max-width: $sm-desktop-width ) {
+    display: none;
+  }
+
+  .full-logo {
+    margin: 4em;
+    width: 55%;
+  }
+
+  .background-img-container {
+    margin: 0;
+    padding: 1rem 0 0 0;
+    width: 100%;
+    background-color: $accent-color;
+    text-align: center;
+  }
+
+  .background-img {
+    width: 85%;
+  }
+}
