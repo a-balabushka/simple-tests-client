@@ -1,0 +1,28 @@
+@import '../../style.scss';
+
+h1 {
+  color: $header-color;
+  font-size: 2rem;
+
+  @include margin-content;
+}
+
+p {
+  color: $content-color;
+  font-size: 1.2rem;
+  text-align: $main-text-align;
+
+  @include margin-content;
+
+  span {
+    color: $accent-color;
+    font-weight: bold;
+  }
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+
+  @include margin-content;
+}

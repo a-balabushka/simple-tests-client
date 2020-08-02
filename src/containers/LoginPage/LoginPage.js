@@ -1,20 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import LoginForm from '../../components/forms/LoginForm/LoginForm'
 import { login } from '../../store/actions/user/auth'
 import { Link } from 'react-router-dom'
+import TabTitle from '../../components/UI/TabTitle/TabTitle'
+import LoginForm from '../../components/forms/LoginForm/LoginForm'
 
 const LoginPage = (props) => {
 	const submit = (data) =>
 		props.login(data).then(() => props.history.push('/dashboard'))
 
 	return (
-		<div>
-			<h1>Login Page</h1>
-			<LoginForm submit={submit} />
-			<Link to='/forgot_password'>Forgot password?</Link>
-		</div>
+		<>
+			<TabTitle title="Log In" />
+			<div>
+				<h1>Log In to Simple Tests</h1>
+				<LoginForm submit={submit} />
+				<Link to="/forgot_password">Forgot password?</Link>
+			</div>
+		</>
 	)
 }
 

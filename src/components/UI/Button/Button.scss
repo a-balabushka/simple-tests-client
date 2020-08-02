@@ -1,0 +1,24 @@
+@import '../../../style';
+
+button {
+  background-color: $accent-color;
+  border: $button-border;
+  border-radius: $button-border-radius;
+  font-size: 1.2rem;
+  padding: 0.5rem 2rem;
+  margin: 0.5rem;
+  cursor: pointer;
+  filter: $button-shadow;
+  outline: $outline;
+
+  &:hover {
+    background-color: $accent-hover-color;
+    transition: $button-hover;
+  }
+
+  a {
+    text-decoration: none;
+    color: $button-text-color;
+    font-weight: bold;
+  }
+}

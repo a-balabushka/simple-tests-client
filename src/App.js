@@ -10,8 +10,10 @@ import SignupPage from './containers/SingupPage/SignupPage'
 import ForgotPasswordPage from './containers/ForgotPasswordPage/ForgotPasswordPage'
 import ResetPasswordPage from './containers/ResetPasswordPage/ResetPasswordPage'
 
+import './style.scss'
+
 const App = () => (
-	<div>
+	<>
 		<Route path="/" exact component={HomePage} />
 		<Route path="/confirmation/:token" exact component={ConfirmationPage} />
 		<GuestRoute path="/login" exact component={LoginPage} />
@@ -19,7 +21,7 @@ const App = () => (
 		<GuestRoute path="/forgot_password" exact component={ForgotPasswordPage} />
 		<GuestRoute path="/reset_password/:token" exact component={ResetPasswordPage} />
 		<UserRoute path="/dashboard" exact component={DashboardPage} />
-	</div>
+	</>
 )
 
 export default App
