@@ -1,13 +1,11 @@
 @import '../../../style';
 
-svg {
+.social-icon {
   fill: $social-icon-no-hover-color;
   padding: 0.25rem;
   cursor: pointer;
   width: $icon-size;
   height: $icon-size;
-
-  @include margin-content;
 
   &:hover {
     fill: $accent-hover-color;

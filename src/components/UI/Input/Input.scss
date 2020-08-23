@@ -1,0 +1,78 @@
+@import '../../../style';
+
+.input-container {
+  width: 100%;
+  margin: $vsm-content-indent 0;
+  text-align: center;
+}
+
+@mixin input {
+  width: 20rem;
+  height: 1.5rem;
+  padding: 0.25rem 0.5rem;
+
+  font-size: 0.9rem;
+  border: $input-border-width $input-border-no-focus;
+  border-radius: $button-border-radius;
+  outline: $outline;
+
+  &:focus::placeholder {
+    opacity: 0;
+    transition: $placeholder-opacity;
+  }
+}
+
+@mixin label {
+  display: block;
+  text-align: left;
+  text-transform: capitalize;
+  font-size: 1rem;
+  font-weight: bold;
+
+  margin: 0.5rem 0;
+}
+
+.label {
+  @include label;
+
+  color: $content-color;
+}
+
+.label__error {
+  @include label;
+
+  color: $error-color;
+  transition: $input-focus;
+}
+
+.input {
+  @include input;
+
+  &:focus {
+    border-color: $accent-hover-color;
+    transition: $input-focus;
+  }
+}
+
+.input__error {
+  @include input;
+
+  border-color: $error-color;
+  transition: $input-focus;
+}
+
+.error-info-icon {
+  padding-right: 4px;
+  width: 0.85rem;
+  height: 0.85rem;
+  fill: $error-color;
+}
+
+.inline-error {
+  display: flex;
+  margin: 0.4rem 0.25rem;
+  width: 20rem;
+  color: $error-color;
+  font-size: 0.8rem;
+  align-items: flex-start;
+}

@@ -1,10 +1,10 @@
 @import '../../style.scss';
 
 h1 {
-  color: $header-color;
-  font-size: 2rem;
-
-  @include margin-content;
+  margin: 0;
+  text-align: left;
+  text-transform: uppercase;
+  color: $content-color;
 }
 
 p {
@@ -20,7 +20,7 @@ p {
   }
 }
 
-.button-container {
+.button-container-column {
   display: flex;
   flex-direction: column;
 

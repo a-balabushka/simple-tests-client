@@ -23,6 +23,8 @@ $header-color: #333333;
 $content-color: #777777;
 $social-icon-no-hover-color: #E0E0E0;
 $button-text-color: #FFFFFF;
+$input-border-no-focus: #BDBDBD;
+$error-color: #DA1515;
 
 // Indents
 $bg-content-indent: 4rem;
@@ -34,6 +36,8 @@ $none-content-indent: 0rem;
 
 $button-hover: 250ms;
 $icon-hover: 250ms;
+$input-focus: 250ms;
+$placeholder-opacity: 400ms;
 
 // Shadows
 
@@ -42,10 +46,12 @@ $button-shadow: drop-shadow(2px 4px 2px rgba(0, 0, 0, 0.1));
 // Border
 
 $button-border: none;
+$input-border-width: 2px solid;
 $button-border-radius: 5px;
 $outline: none;
 
 // Text
+
 $main-text-align: justify;
 
 
@@ -85,4 +91,8 @@ html, body, #root {
   margin: 0;
 
   font-family: $main-font;
+}
+
+.button-container {
+  text-align: center;
 }

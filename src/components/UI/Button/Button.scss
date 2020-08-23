@@ -1,6 +1,6 @@
 @import '../../../style';
 
-button {
+@mixin button {
   background-color: $accent-color;
   border: $button-border;
   border-radius: $button-border-radius;
@@ -10,15 +10,27 @@ button {
   cursor: pointer;
   filter: $button-shadow;
   outline: $outline;
+  color: $button-text-color;
 
   &:hover {
     background-color: $accent-hover-color;
     transition: $button-hover;
   }
+}
+
+button {
+  @include button;
 
   a {
     text-decoration: none;
     color: $button-text-color;
-    font-weight: bold;
   }
+}
+
+
+.button-link {
+  @include button;
+
+  text-decoration: none;
+  text-align: center;
 }

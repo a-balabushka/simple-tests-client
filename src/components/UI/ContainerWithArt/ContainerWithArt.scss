@@ -1,11 +1,12 @@
 @import '../../../style.scss';
 
-.container {
+.container-with-art {
   height: 100%;
   display: flex;
 }
 
 .right-side {
+  flex-grow: 2;
   padding: $sm-content-indent;
 
   @include flex-column-space-between-center;
