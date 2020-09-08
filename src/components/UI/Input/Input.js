@@ -20,7 +20,7 @@ const Input = (props) => {
 				className={props.error ? 'label__error' : 'label'}
 				htmlFor={props.label}
 			>
-				{props.label}:
+				{props.text}:
 			</label>
 			<input
 				className={props.error ? 'input__error' : 'input'}
@@ -42,6 +42,7 @@ const Input = (props) => {
 
 Input.propTypes = {
 	label: PropTypes.string.isRequired,
+	text: PropTypes.string.isRequired,
 	type: PropTypes.string.isRequired,
 	placeholder: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,

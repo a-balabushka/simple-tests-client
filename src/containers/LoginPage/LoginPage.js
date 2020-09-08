@@ -2,11 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import {
-	login,
-	loginSuccess,
-	loginFailure,
-} from '../../store/actions/user/auth'
+import { login, loginSuccess, loginFailure } from '../../store/actions/user/auth'
 import { getError, getLoading } from '../../store/selectors/user'
 import TabTitle from '../../components/UI/TabTitle/TabTitle'
 import ContainerWithArt from '../../components/UI/ContainerWithArt/ContainerWithArt'

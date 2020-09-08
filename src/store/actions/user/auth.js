@@ -1,5 +1,12 @@
 import makeActionCreator from '../helper'
-import { actionTypes, USER_LOGGED_IN, USER_LOGGED_OUT } from '../../types'
+import {
+	actionTypes,
+	USER_LOGGED_IN,
+	USER_LOGGED_OUT,
+	RESET_PASSWORD_REQUEST,
+	VALIDATE_TOKEN,
+	RESET_PASSWORD_ACCEPT
+} from '../../types'
 import api from '../../api'
 
 const { request, success, failure } = actionTypes
@@ -39,13 +46,42 @@ export const confirm = (token) => (dispatch) =>
 		dispatch(userLoggedIn(user))
 	})
 
-/* ====== RESET PASSWORD ==================================================== */
+/* ====== RESET PASSWORD REQUEST ============================================ */
 
-export const resetPasswordRequest = (data) => (dispatch) => {
-	api.user.resetPasswordRequest(data.email)
-	dispatch(userLoggedOut())
-}
+export const resetPasswordRequestRequest = (email) => (dispatch) =>
+	api.user
+		.resetPasswordRequest(email)
+		.then(dispatch(makeActionCreator(RESET_PASSWORD_REQUEST, request)()))
 
-export const validateToken = (token) => () => api.user.validateToken(token)
+export const resetPasswordRequestSuccess = () => (dispatch) =>
+	dispatch(makeActionCreator(RESET_PASSWORD_REQUEST, success)())
 
-export const resetPassword = (data) => () => api.user.resetPassword(data)
+export const resetPasswordRequestFailure = (error) => (dispatch) =>
+	dispatch(makeActionCreator(RESET_PASSWORD_REQUEST, failure, 'error')(error))
+
+
+/* ====== VALIDATE TOKEN ==================================================== */
+
+export const validateTokenRequest = (token) => (dispatch) =>
+	api.user
+		.validateToken(token)
+		.then(dispatch(makeActionCreator(VALIDATE_TOKEN, request)()))
+
+export const validateTokenSuccess = () => (dispatch) =>
+	dispatch(makeActionCreator(VALIDATE_TOKEN, success)())
+
+export const validateTokenFailure = (error) => (dispatch) =>
+	dispatch(makeActionCreator(VALIDATE_TOKEN, failure, 'error')(error))
+
+/* ====== RESET PASSWORD ACCEPT ============================================= */
+
+export const resetPasswordAcceptRequest = (data) => (dispatch) =>
+	api.user
+		.resetPassword(data)
+		.then(dispatch(makeActionCreator(RESET_PASSWORD_ACCEPT, request)()))
+
+export const resetPasswordAcceptSuccess = () => (dispatch) =>
+	dispatch(makeActionCreator(RESET_PASSWORD_ACCEPT, success)())
+
+export const resetPasswordAcceptFailure = (error) => (dispatch) =>
+	dispatch(makeActionCreator(RESET_PASSWORD_ACCEPT, failure, 'error')(error))

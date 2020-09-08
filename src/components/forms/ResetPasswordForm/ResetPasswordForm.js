@@ -1,80 +1,80 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import validation from '../../../utils/validation/validation'
+import { resetPasswordSchemas } from '../../../utils/validation/keys/user'
+import { resetPasswordInputs } from '../../../utils/inputsKeys'
+import { chooseError } from '../../../utils/helper'
+import Input from '../../UI/Input/Input'
+import Spinner from '../../UI/Spinner/Spinner'
+import Button from '../../UI/Button/Button'
 
 class ResetPasswordForm extends Component {
 	state = {
 		data: {
-			token: this.props.token,
-			password: "",
-			passwordConfirmation: ""
+			password: '',
+			passwordConfirmation: '',
 		},
-		loading: false,
-		errors: {}
-	};
+		validateResult: null,
+	}
 
-	onChange = e =>
+	onChange = (e) =>
 		this.setState({
 			...this.state,
-			data: { ...this.state.data, [e.target.name]: e.target.value }
-		});
+			data: { ...this.state.data, [e.target.name]: e.target.value },
+		})
 
-	onSubmit = e => {
-		e.preventDefault();
-		const errors = this.validate(this.state.data);
-		this.setState({ errors });
-		if (Object.keys(errors).length === 0) {
-			this.setState({ loading: true });
-			this.props
-				.submit(this.state.data)
-				.catch(err =>
-					this.setState({ errors: err.response.data.errors, loading: false })
-				);
+	onSubmit = (event) => {
+		event.preventDefault()
+		this.clearValidationResult()
+		const { data } = this.state
+		if (data.password === data.passwordConfirmation) {
+			const validationResult = validation(data, resetPasswordSchemas)
+			validationResult
+				? this.setState({ validationResult })
+				: this.props.submit({
+					password: data.password,
+					token: this.props.token
+				})
+		} else {
+			this.setState({
+				validationResult: { passwordConfirmation: 'Passwords must match' }
+			})
 		}
-	};
+	}
 
-	validate = data => {
-		const errors = {};
-		if (!data.password) errors.password = "Can't be blank";
-		if (data.password !== data.passwordConfirmation)
-			errors.password = "Passwords must match";
-		return errors;
-	};
+	clearValidationResult = () => this.setState({ validationResult: null })
 
 	render() {
-		const { errors, data, loading } = this.state;
-		console.log(errors)
+		const { loading } = this.props
 
 		return (
 			<div>
-				{ loading
-					? (<div>loading...</div>)
-					: (
+				{loading ? (
+					<div>loading...</div>
+				) : (
 					<form onSubmit={this.onSubmit}>
-						<div>
-							<label htmlFor="password">New Password</label>
-							<input
-								type="password"
-								id="password"
-								name="password"
-								placeholder="your new password"
-								value={data.password}
-								onChange={this.onChange}
-							/>
+						{resetPasswordInputs.map((item) => {
+							const errorProp = [
+								this.state.validationResult,
+								this.props.serverError,
+								item.label,
+							]
+
+							const arg = {
+								...item,
+								value: this.state.data[item.label],
+								onChange: this.onChange,
+								error: chooseError(...errorProp),
+							}
+							return <Input {...arg} key={item.label} />
+						})}
+						<div className="button-container">
+							{loading ? (
+								<Spinner />
+							) : (
+								<Button isLink={false} to="" text="Reset" />
+							)}
 						</div>
-						<div>
-							<label htmlFor="passwordConfirmation">
-								Confirm your new password
-							</label>
-							<input
-								type="password"
-								id="passwordConfirmation"
-								name="passwordConfirmation"
-								placeholder="type it again, please"
-								value={data.passwordConfirmation}
-								onChange={this.onChange}
-							/>
-						</div>
-						<button>Reset</button>
 					</form>
 				)}
 			</div>
@@ -83,8 +83,16 @@ class ResetPasswordForm extends Component {
 }
 
 ResetPasswordForm.propTypes = {
+	loading: PropTypes.bool.isRequired,
+	token: PropTypes.string.isRequired,
+	serverError: PropTypes.shape({
+		token: PropTypes.string,
+	}),
 	submit: PropTypes.func.isRequired,
-	token: PropTypes.string.isRequired
-};
+}
 
-export default ResetPasswordForm;
+ResetPasswordForm.defaultProps = {
+	serverError: null,
+}
+
+export default ResetPasswordForm

@@ -1,11 +1,18 @@
 import Joi from 'joi'
-import { loginSchemas } from '../keys/user'
-import makeValidationMessage from '../makeValidationMessage'
 
-const loginFormValidation = (state) => {
-	const schema = Joi.object().keys(loginSchemas)
+const validation = (state, formSchema) => {
+	const schema = Joi.object().keys(formSchema)
 	const result = schema.validate(state, { abortEarly: false });
 	return result.error && makeValidationMessage(result.error.details)
 }
 
-export default loginFormValidation
+function makeValidationMessage(validationResult) {
+	const message = {}
+	for (let i = 0; i < validationResult.length; i++) {
+		const item = validationResult[i]
+		message[item.context.key] = item.message
+	}
+	return message
+}
+
+export default validation

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { email, password } from '../../../utils/inputsKeys'
-import loginFormValidation from './LoginFormValidation'
-import makeValidationMessage from '../../../utils/makeValidationMessage'
+import { loginInputs } from '../../../utils/inputsKeys'
+import validation from '../../../utils/validation/validation'
+import { loginSchemas } from '../../../utils/validation/keys/user'
+import { chooseError } from '../../../utils/helper'
 import Input from '../../UI/Input/Input'
 import Button from '../../UI/Button/Button'
 import Spinner from '../../UI/Spinner/Spinner'
@@ -25,50 +26,31 @@ class LoginForm extends Component {
 		event.preventDefault()
 		this.clearValidationResult()
 		const { data } = this.state
-		const validationResult = loginFormValidation(data)
-
-		if (validationResult) {
-			this.setState({
-				validationResult: makeValidationMessage(validationResult),
-			})
-		} else {
-			this.props.submit(data)
-		}
+		const validationResult = validation(data, loginSchemas)
+		validationResult
+			? this.setState({ validationResult })
+			: this.props.submit(data)
 	}
 
-	clearValidationResult = () =>
-		this.setState({
-			...this.state.data,
-			validationResult: null,
-		})
-
-	makeError = (obj, key) => (obj ? obj[key] : null)
+	clearValidationResult = () => this.setState({ validationResult: null })
 
 	render() {
-		const inputs = [email, password]
 		return (
 			<form onSubmit={this.onSubmit}>
-				{inputs.map((item) => {
-					const { label, type, placeholder } = item
-					const { validationResult } = this.state
-					const { serverError } = this.props
-					const value = this.state.data[label]
+				{loginInputs.map((item) => {
+					const errorProp = [
+						this.state.validationResult,
+						this.props.serverError,
+						item.label,
+					]
+					const arg = {
+						...item,
+						value: this.state.data[item.label],
+						onChange: this.onChange,
+						error: chooseError(...errorProp),
+					}
 
-					const error =
-						this.makeError(validationResult, label) ||
-						this.makeError(serverError, label) || null
-
-					return (
-						<Input
-							label={label}
-							type={type}
-							placeholder={placeholder}
-							value={value}
-							onChange={this.onChange}
-							error={error}
-							key={label}
-						/>
-					)
+					return <Input {...arg} key={item.label} />
 				})}
 				<div className="button-container">
 					{this.props.loading ? (

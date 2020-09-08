@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { forgotPasswordInputs } from '../../../utils/inputsKeys'
+import { forgotPasswordSchemas } from '../../../utils/validation/keys/user'
+import Input from '../../UI/Input/Input'
+import Button from '../../UI/Button/Button'
+import { chooseError } from '../../../utils/helper'
+import Spinner from '../../UI/Spinner/Spinner'
+import validation from '../../../utils/validation/validation'
 
 class ForgotPasswordForm extends Component {
 	state = {
 		data: {
 			email: '',
 		},
-		loading: false,
-		errors: {},
+		validationResult: null,
 	}
 
 	onChange = (e) =>
@@ -17,32 +23,56 @@ class ForgotPasswordForm extends Component {
 
 	onSubmit = (event) => {
 		event.preventDefault()
-		this.props.submit(this.state.data)
+		this.clearValidationResult()
+		const { data } = this.state
+		const validationResult = validation(data, forgotPasswordSchemas)
+		validationResult
+			? this.setState({ validationResult })
+			: this.props.submit(data.email)
 	}
 
-	render() {
-		const { data } = this.state
+	clearValidationResult = () => this.setState({ validationResult: null })
 
+	render() {
 		return (
 			<form onSubmit={this.onSubmit}>
-				<div>
-					<label htmlFor="email">Email</label>
-					<input
-						type="email"
-						name="email"
-						placeholder="example@example.com"
-						value={data.email}
-						onChange={this.onChange}
-					/>
+				{forgotPasswordInputs.map((item) => {
+					const errorProp = [
+						this.state.validationResult,
+						this.props.serverError,
+						item.label,
+					]
+
+					const arg = {
+						...item,
+						value: this.state.data[item.label],
+						onChange: this.onChange,
+						error: chooseError(...errorProp),
+					}
+					return <Input {...arg} key={item.label} />
+				})}
+				<div className="button-container">
+					{this.props.loading ? (
+						<Spinner />
+					) : (
+						<Button isLink={false} to="" text="Continue" />
+					)}
 				</div>
-				<button>Continue</button>
 			</form>
 		)
 	}
 }
 
 ForgotPasswordForm.propTypes = {
+	loading: PropTypes.bool.isRequired,
+	serverError: PropTypes.shape({
+		email: PropTypes.string,
+	}),
 	submit: PropTypes.func.isRequired,
+}
+
+ForgotPasswordForm.defaultProps = {
+	serverError: null,
 }
 
 export default ForgotPasswordForm
